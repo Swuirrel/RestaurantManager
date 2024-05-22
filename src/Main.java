@@ -3,6 +3,9 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the restaurant application! Please enter the restaurant manager's name to start: ");
+        String managerName = scanner.nextLine();
+        RestaurantManager restaurantManager = new RestaurantManager(managerName);
 
         while (true) {
             try {
@@ -17,9 +20,6 @@ public class Main {
 
                 switch (userOption) {
                     case 1 -> {
-                        System.out.println("Welcome to the manager side! Before we begin, please enter your name: ");
-                        String managerName = scanner.nextLine();
-                        RestaurantManager restaurantManager = new RestaurantManager(managerName);
                         restaurantManager.greet();
                         manageAsManager(scanner, restaurantManager);
                     }
@@ -27,7 +27,6 @@ public class Main {
                         System.out.println("Welcome to the client side! Before we begin, please enter your name: ");
                         String clientName = scanner.nextLine();
                         Client client = new Client(clientName);
-                        RestaurantManager restaurantManager = new RestaurantManager("DummyManager");
                         client.greet();
                         manageAsClient(scanner, client, restaurantManager);
                     }
@@ -55,6 +54,7 @@ public class Main {
                 System.out.println("What would you like to do?");
                 System.out.println("1 - Display Menus, 2 - Add a Menu, 3 - Remove a Menu, 4 - Edit a Menu, 5 - Back");
                 int option = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
                 switch (option) {
                     case 1 -> restaurantManager.viewItems();
                     case 2 -> restaurantManager.addMenu();
@@ -83,6 +83,7 @@ public class Main {
                 System.out.println("What would you like to do?");
                 System.out.println("1 - View a Menu, 2 - Add to Cart, 3 - Remove from Cart, 4 - View Cart, 5 - Pay, 6 - Back");
                 int option = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
                 switch (option) {
                     case 1 -> restaurantManager.viewItems();
                     case 2 -> client.addToOrder(restaurantManager);

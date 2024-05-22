@@ -18,7 +18,7 @@ public class Client extends User implements OrderManagement {
             System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
         }
         System.out.println("------------------------------------");
-        System.out.println("Total + " +  String.format("%.2f", calculateTotalPrice()));
+        System.out.println("Total: $" +  String.format("%.2f", calculateTotalPrice()));
     }
 
     @Override

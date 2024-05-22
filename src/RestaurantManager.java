@@ -136,12 +136,12 @@ public class RestaurantManager extends User {
             System.out.println("\nWhich menu would you like to remove?");
             int selection = scanner.nextInt();
             scanner.nextLine();
-            String toBeRemovedName = menus.get(selection - 1).restaurantName;
             if (selection > 0 && selection <= menus.size()) {
+                String toBeRemovedName = menus.get(selection - 1).restaurantName;
                 menus.remove(selection - 1);
                 System.out.println(toBeRemovedName + " was removed successfully!");
             } else {
-                System.out.println("Invalid input. ");
+                System.out.println("Invalid input. No menu removed.");
             }
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. No dish removed.");
