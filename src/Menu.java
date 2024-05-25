@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Menu {
+public class Menu implements Serializable {
     String restaurantName;
     ArrayList<Dish> dishes;
 
@@ -15,9 +16,18 @@ public class Menu {
             System.out.println("Enter the name of the new dish:");
             String dishName = scanner.nextLine();
 
-            System.out.println("Enter the price of the new dish:");
-            double dishPrice = scanner.nextDouble();
-            scanner.nextLine();
+            double dishPrice = 0.0;
+            while (true) {
+                System.out.println("Enter the price of the new dish:");
+                try {
+                    dishPrice = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    scanner.nextLine();
+                    System.out.println("Invalid price. Please enter a valid number.");
+                }
+            }
 
             String dishType;
             while (true) {

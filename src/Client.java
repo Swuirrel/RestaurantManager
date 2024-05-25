@@ -31,9 +31,9 @@ public class Client extends User implements OrderManagement {
             Scanner scanner = new Scanner(System.in);
             int menuCount = 1;
             for (Menu menu : restaurantManager.menus) {
-                System.out.print(menuCount++ + " - " + menu.restaurantName + " ");
+                System.out.println(menuCount++ + " - " + menu.restaurantName + " ");
             }
-            System.out.println("\nWhich menu would you like to order from?");
+            System.out.println("Which menu would you like to order from?");
             int menuSelection = scanner.nextInt();
             scanner.nextLine();
             if (menuSelection > 0 && menuSelection <= restaurantManager.menus.size()) {
@@ -45,9 +45,9 @@ public class Client extends User implements OrderManagement {
                 while (true) {
                     int dishCount = 1;
                     for (Dish dish : menuChoice.dishes) {
-                        System.out.print(dishCount++ + " - " + dish.getName() + " $" + String.format("%.2f", dish.getPrice()) + " ");
+                        System.out.println(dishCount++ + " - " + dish.getName() + " $" + String.format("%.2f", dish.getPrice()) + " ");
                     }
-                    System.out.println("\nWhich dish would you like to order?");
+                    System.out.println("Which dish would you like to order?");
                     int dishSelection = scanner.nextInt();
                     scanner.nextLine();
                     if (dishSelection > 0 && dishSelection <= menuChoice.dishes.size()) {

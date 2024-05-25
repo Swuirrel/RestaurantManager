@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.*;
 
-public class RestaurantManager extends User {
+public class RestaurantManager extends User implements Serializable{
     public ArrayList<Menu> menus;
 
     public RestaurantManager(String name) {
@@ -17,9 +18,9 @@ public class RestaurantManager extends User {
             }
             int count = 1;
             for (Menu menu : menus) {
-                System.out.print(count++ + " - " + menu.restaurantName + " ");
+                System.out.println(count++ + " - " + menu.restaurantName + " ");
             }
-            System.out.println("\nWhich menu would you like to view?");
+            System.out.println("Which menu would you like to view?");
             int choice = scanner.nextInt();
             scanner.nextLine();
             if (choice > 0 && choice <= menus.size()) {
@@ -78,9 +79,9 @@ public class RestaurantManager extends User {
             }
             int count = 1;
             for (Menu menu : menus) {
-                System.out.print(count++ + " - " + menu.restaurantName + " ");
+                System.out.println(count++ + " - " + menu.restaurantName + " ");
             }
-            System.out.println("\nWhich menu would you like to edit?");
+            System.out.println("Which menu would you like to edit?");
             int selection = scanner.nextInt();
             scanner.nextLine();
             if (selection > 0 && selection <= menus.size()) {
@@ -112,6 +113,56 @@ public class RestaurantManager extends User {
             System.out.println(e.getMessage());
         }
     }
+    public void saveMenuToFile() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int count = 1;
+            for (Menu menu : menus) {
+                System.out.println(count++ + " - " + menu.restaurantName + " ");
+            }
+            System.out.println("Which menu would you like to save?");
+            int selection = scanner.nextInt();
+            scanner.nextLine();
+
+            if (selection < 1 || selection > menus.size()) {
+                System.out.println("Invalid selection. Please choose a valid menu number.");
+                return;
+            }
+
+            Menu menu = menus.get(selection - 1);
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(menu.restaurantName + ".ser"))) {
+                objectOutputStream.writeObject(menu);
+                System.out.println("'"+ menu.restaurantName + "' saved successfully!");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Error!");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a number corresponding to the menu.");
+            scanner.nextLine();
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    public void loadMenuFromFile() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the name of the menu you would like to load: ");
+        String fileName = scanner.nextLine();
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName + ".ser"))) {
+            Menu menu = (Menu) objectInputStream.readObject();
+            menus.add(menu);
+            System.out.println("'" + menu.restaurantName + "' loaded successfully!");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Please check the file name and try again.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading the menu: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found. Please ensure the file contains a valid menu object.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+    }
 
     int findMenu(String menuName) {
         for (int i = 0; i < menus.size(); i++) {
@@ -131,9 +182,9 @@ public class RestaurantManager extends User {
             }
             int count = 1;
             for (Menu menu : menus) {
-                System.out.print(count++ + " - " + menu.restaurantName + " ");
+                System.out.println(count++ + " - " + menu.restaurantName + " ");
             }
-            System.out.println("\nWhich menu would you like to remove?");
+            System.out.println("Which menu would you like to remove?");
             int selection = scanner.nextInt();
             scanner.nextLine();
             if (selection > 0 && selection <= menus.size()) {
@@ -146,8 +197,7 @@ public class RestaurantManager extends User {
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. No dish removed.");
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred.");
-            System.out.println(e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -156,23 +206,32 @@ public class RestaurantManager extends User {
         System.out.println("         " + menuChoice.restaurantName + " Menu (By Type)");
         System.out.println("-------------------------------");
         System.out.println("Appetizers: ");
+        boolean hasAppetizer = false;
         for (Dish dish : menuChoice.dishes) {
             if (dish.getType().equals("appetizer")) {
                 System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
+                hasAppetizer = true;
             }
         }
+        if (!hasAppetizer) System.out.println("(empty)");
+        boolean hasMeal = false;
         System.out.println("Meals: ");
         for (Dish dish : menuChoice.dishes) {
             if (dish.getType().equals("meal")) {
                 System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
+                hasMeal = true;
             }
         }
+        if (!hasMeal) System.out.print("(empty)");
+        boolean hasDessert = false;
         System.out.println("Desserts: ");
         for (Dish dish : menuChoice.dishes) {
             if (dish.getType().equals("dessert")) {
                 System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
+                hasDessert = true;
             }
         }
+        if (!hasDessert) System.out.print("(empty)");
     }
 
     void printByPrice(int menuIndex) {

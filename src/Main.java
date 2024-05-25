@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 public class Main {
@@ -14,10 +15,8 @@ public class Main {
                 System.out.println("1 - Manager");
                 System.out.println("2 - Client");
                 System.out.println("3 - Exit");
-
                 int userOption = scanner.nextInt();
                 scanner.nextLine();
-
                 switch (userOption) {
                     case 1 -> {
                         restaurantManager.greet();
@@ -52,15 +51,17 @@ public class Main {
             try {
                 System.out.println("\n------------ "+ restaurantManager.name + "'s Restaurant Manager ------------");
                 System.out.println("What would you like to do?");
-                System.out.println("1 - Display Menus, 2 - Add a Menu, 3 - Remove a Menu, 4 - Edit a Menu, 5 - Back");
+                System.out.println("1 - Display Menus, 2 - Add a Menu, 3 - Remove a Menu, 4 - Edit a Menu, 5 - Save Menu, 6 - Load Menu, 7 - Back");
                 int option = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 switch (option) {
                     case 1 -> restaurantManager.viewItems();
                     case 2 -> restaurantManager.addMenu();
                     case 3 -> restaurantManager.removeMenu();
                     case 4 -> restaurantManager.editMenu();
-                    case 5 -> {
+                    case 5 -> restaurantManager.saveMenuToFile();
+                    case 6 -> restaurantManager.loadMenuFromFile();
+                    case 7 -> {
                         return;
                     }
                     default -> System.out.println("Invalid option. Please try again.");
@@ -130,7 +131,7 @@ interface OrderManagement {
 
 
 
-class Dish {
+class Dish implements Serializable {
 
     private final String name;
     private final String type;
