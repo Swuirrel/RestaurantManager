@@ -109,7 +109,7 @@ public class Client extends User implements OrderManagement {
     }
 
 
-    void pay() {
+    public void pay() {
         if (cart.isEmpty()) {
             System.out.println("The cart is empty, there is nothing to pay for.");
             return;

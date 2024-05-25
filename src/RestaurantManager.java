@@ -164,7 +164,7 @@ public class RestaurantManager extends User implements Serializable{
         }
     }
 
-    int findMenu(String menuName) {
+    private int findMenu(String menuName) {
         for (int i = 0; i < menus.size(); i++) {
             if (menus.get(i).restaurantName.equalsIgnoreCase(menuName)) {
                 return i;
@@ -173,7 +173,7 @@ public class RestaurantManager extends User implements Serializable{
         return -1;
     }
 
-    void removeMenu() {
+    public void removeMenu() {
         Scanner scanner = new Scanner(System.in);
         try {
             if (menus.isEmpty()) {
@@ -201,7 +201,7 @@ public class RestaurantManager extends User implements Serializable{
         }
     }
 
-    void printByType(int menuIndex) {
+    public void printByType(int menuIndex) {
         Menu menuChoice = menus.get(menuIndex - 1);
         System.out.println("         " + menuChoice.restaurantName + " Menu (By Type)");
         System.out.println("-------------------------------");
@@ -234,7 +234,7 @@ public class RestaurantManager extends User implements Serializable{
         if (!hasDessert) System.out.print("(empty)");
     }
 
-    void printByPrice(int menuIndex) {
+    public void printByPrice(int menuIndex) {
         Menu menuChoice = menus.get(menuIndex - 1);
         bubbleSortByPrice(menuChoice.dishes);
         System.out.println("         " + menuChoice.restaurantName + " Menu (By Price)");
@@ -244,6 +244,15 @@ public class RestaurantManager extends User implements Serializable{
         }
     }
 
+   public void printByName(int menuIndex) {
+        Menu menuChoice = menus.get(menuIndex - 1);
+        quickSortByName(menuChoice.dishes, 0, menuChoice.dishes.size() - 1);
+        System.out.println("         " + menuChoice.restaurantName + " Menu (By Name)");
+        System.out.println("-------------------------------");
+        for (Dish dish : menuChoice.dishes) {
+            System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
+        }
+    }
     void bubbleSortByPrice(ArrayList<Dish> dishes) {
         int n = dishes.size();
         for (int i = 0; i < n - 1; i++) {
@@ -257,16 +266,6 @@ public class RestaurantManager extends User implements Serializable{
         }
     }
 
-
-    void printByName(int menuIndex) {
-        Menu menuChoice = menus.get(menuIndex - 1);
-        quickSortByName(menuChoice.dishes, 0, menuChoice.dishes.size() - 1);
-        System.out.println("         " + menuChoice.restaurantName + " Menu (By Name)");
-        System.out.println("-------------------------------");
-        for (Dish dish : menuChoice.dishes) {
-            System.out.println("- " + dish.getName() + ", $" + String.format("%.2f", dish.getPrice()));
-        }
-    }
 
     void quickSortByName(ArrayList<Dish> dishes, int low, int high) {
         if (low < high) {
